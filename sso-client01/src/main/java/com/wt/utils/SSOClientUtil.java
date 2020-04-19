@@ -46,12 +46,12 @@ public class SSOClientUtil {
      * 获取客户端的完整登出地址
      */
     public static String getClientLogOutUrl(){
-        return CLIENT_HOST_URL+"/logOut";
+        return CLIENT_HOST_URL+"/logout";
     }
     /**
      * 获取认证中心的登出地址
      */
     public static String getServerLogOutUrl(){
-        return SERVER_URL_PREFIX+"/logOut";
+        return SERVER_URL_PREFIX+"/logout";
     }
 }

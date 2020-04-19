@@ -33,6 +33,7 @@ public class SSOClientUtil {
      */
     public static void redirectToSSOURL(HttpServletRequest request,HttpServletResponse response) throws IOException {
         String redirectUrl = getRedirectUrl(request);
+        System.out.println("redirectUrl" + "==>" +redirectUrl);
         StringBuilder url = new StringBuilder(50)
                 .append(SERVER_URL_PREFIX)  //跳转到登录页面的地址
                 .append("/checkLogin?redirectUrl=")
@@ -45,12 +46,12 @@ public class SSOClientUtil {
      * 获取客户端的完整登出地址
      */
     public static String getClientLogOutUrl(){
-        return CLIENT_HOST_URL+"/logOut";
+        return CLIENT_HOST_URL+"/logout";
     }
     /**
      * 获取认证中心的登出地址
      */
     public static String getServerLogOutUrl(){
-        return SERVER_URL_PREFIX+"/logOut";
+        return SERVER_URL_PREFIX+"/logout";
     }
 }

@@ -14,7 +14,7 @@ public class LoginController {
     public String client01 (Model model) {
         model.addAttribute("logoutUrl",
                 SSOClientUtil.getServerLogOutUrl());
-        return "client01";
+        return "tianmao";
     }
 
     //注销

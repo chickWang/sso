@@ -29,7 +29,7 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
-            <bean class="com.icoding.interceptor.SsoClientInterceptor"/>
+            <bean class="com.wt.interceptor.SsoClientInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 

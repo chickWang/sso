@@ -1,6 +1,7 @@
 package com.wt.controller;
 
 import com.wt.db.MockDB;
+import com.wt.pojo.ClientInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.jws.WebParam;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -20,7 +23,7 @@ public class SsoServerController {
     }
 
     @RequestMapping("/login")
-    @ResponseBody //就是返回json  restController也可以实现
+    //@ResponseBody //就是返回json  restController也可以实现
     public String login (String username, String password, String redirectUrl, HttpSession session, Model model) {
         System.out.println(username + "==" + password);
         //模拟数据
@@ -65,15 +68,36 @@ public class SsoServerController {
     //验证token是否正确
     @RequestMapping("verifyToken")
     @ResponseBody
-    public String verifyToken (String token) {
+    public String verifyToken (String token,String clientUrl,String jsessionId) {
         if (MockDB.T_TOKEN.contains(token)) {
             System.out.println("服务器端校验token成功");
+            //保存用户的登出地址和sessionId
+            List<ClientInfo> clientInfos = MockDB.T_CLIENT_INFO.get(token);
+            if (clientInfos == null) {
+                //第一次的时候还没有clientInfos这个对象  先创建一下
+                clientInfos = new ArrayList<>();
+                //将用户的信息放进去
+                MockDB.T_CLIENT_INFO.put(token,clientInfos);
+            }
+            //将自己的信息  放到list里面  存到数据库里面
+            ClientInfo clientInfo = new ClientInfo();
+            clientInfo.setClientUrl(clientUrl);
+            clientInfo.setJsessionId(jsessionId);
+            clientInfos.add(clientInfo);
             return "true";
         }
         return "false";
     }
 
-
-
+    //注销
+    @RequestMapping("/logout")
+    public String logout (HttpSession session) {
+        //销毁认证中心自己的session
+        session.invalidate();
+        //通知淘宝和天猫session，监听器实现  我们如何只在这里提醒客户端
+        // 就忽略了session的超时自动过期的情况了
+        //session过期后  到登录页面
+        return "login";
+    }
 
 }

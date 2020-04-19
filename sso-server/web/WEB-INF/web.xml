@@ -35,4 +35,15 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <session-config>
+        <!--15分钟session自动过期-->
+        <session-timeout>15</session-timeout>
+    </session-config>
+
+    <!--注册监听器-->
+    <listener>
+        <listener-class>com.wt.listener.MySessionListener</listener-class>
+    </listener>
+
+
 </web-app>
